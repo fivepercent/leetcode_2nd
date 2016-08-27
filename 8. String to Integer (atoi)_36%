@@ -1,0 +1,28 @@
+public class Solution {
+    public int myAtoi(String str) {
+        //remove white space
+        str=str.trim();
+        int len=str.length();
+        if(len==0)return 0;
+        double res=0;
+        int isNeg=1;
+        int index=0;
+        if(str.charAt(0)=='+'){
+            index++;
+        }else if(str.charAt(0)=='-'){
+            isNeg=-1;
+            index++;
+        }
+        //remove leading zeros
+        while(index<len&&str.charAt(index)=='0')index++;
+        while(index<len){
+            char digit=str.charAt(index);
+            if(digit>'9'||digit<'0')break;
+            res=res*10+(digit-'0')*isNeg;
+            index++;
+        }
+        if(res>Integer.MAX_VALUE)return Integer.MAX_VALUE;
+        if(res<Integer.MIN_VALUE)return Integer.MIN_VALUE;
+        return (int)res;
+    }
+}

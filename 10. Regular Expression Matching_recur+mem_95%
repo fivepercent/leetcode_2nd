@@ -1,0 +1,47 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int[][] cache = new int[s.length()+1][p.length()+1];
+        return isMatch(s,0,p,0,cache);
+    }
+    public boolean isMatch(String s, int index1, String p, int index2, int[][] cache){
+        if(cache[index1][index2]!=0){
+            return cache[index1][index2]==2;
+        }
+        int lenS=s.length();
+        int lenP=p.length();
+        boolean result=false;
+        if(index2==lenP){
+            result=index1==lenS;
+        }else if(index1==lenS){
+            result=checkEmpty(p, index2);
+        }else if(index2+1<lenP&&p.charAt(index2+1)=='*'){
+            if(characterMatch(s.charAt(index1), p.charAt(index2))){
+                result=isMatch(s, index1, p, index2+2, cache)||isMatch(s, index1+1, p, index2, cache);
+            }else{
+                result=isMatch(s, index1, p, index2+2, cache);
+            }
+        }else{
+            if(characterMatch(s.charAt(index1), p.charAt(index2))){
+                result=isMatch(s, index1+1, p, index2+1, cache);
+            }else{
+                result=false;
+            }
+        }
+        cache[index1][index2]=result?2:1;
+        return result;
+    }
+    public boolean characterMatch(char sc, char pc){
+        return sc==pc||pc=='.';
+    }
+    //pay attention to this function
+    public boolean checkEmpty(String p, int index2){
+        int len=p.length();
+        if(index2==len)return true;
+        if((len-index2)%2!=0)return false;
+        while(index2+1<len){
+            if(p.charAt(index2+1)!='*')return false;
+            index2+=2;
+        }
+        return true;
+    }
+}

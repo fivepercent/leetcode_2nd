@@ -1,0 +1,24 @@
+public class Solution {
+    public String longestPalindrome(String s) {
+        int len =s.length();
+        int maxLen=0;
+        String longest=null;
+        for(int i=0; i<len;i++){
+            int len1=palindromeLen(s, i, i);
+            int len2=palindromeLen(s, i, i+1);
+            int curLen=len1>len2?len1:len2;
+            if(curLen>maxLen){
+                maxLen=curLen;
+                longest=s.substring(i-(curLen-1)/2, i+curLen-(curLen-1)/2);
+            }
+        }
+        return longest;
+    }
+    public int palindromeLen(String s, int left, int right){
+        while(left>=0&&right<=s.length()-1&&s.charAt(left)==s.charAt(right)){
+            left--;
+            right++;
+        }
+        return right-left-1;
+    }
+}

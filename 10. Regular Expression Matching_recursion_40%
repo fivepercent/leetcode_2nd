@@ -1,0 +1,39 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        return isMatch(s, 0, p, 0);
+    }
+    public boolean isMatch(String s, int index1, String p, int index2){
+        int lenS=s.length();
+        int lenP=p.length();
+        if(index2==lenP)return index1==lenS;
+        //check if p is empty.
+        if(index1==lenS)return checkEmpty(p, index2);
+        if(index2<lenP-1&&p.charAt(index2+1)=='*'){
+            if(characterMatch(s.charAt(index1), p.charAt(index2))){
+                return isMatch(s, index1, p, index2+2)||isMatch(s, index1+1, p, index2);
+            }else{
+                return isMatch(s, index1, p, index2+2);
+            }
+        }else{
+            if(characterMatch(s.charAt(index1), p.charAt(index2))){
+                return isMatch(s, index1+1, p, index2+1);
+            }else{
+                return false;
+            }
+        }
+    }
+    public boolean characterMatch(char sc, char pc){
+        return sc==pc||pc=='.';
+    }
+    //pay attention to this function
+    public boolean checkEmpty(String p, int index2){
+        int len=p.length();
+        if(index2==len)return true;
+        if((len-index2)%2!=0)return false;
+        while(index2+1<len){
+            if(p.charAt(index2+1)!='*')return false;
+            index2+=2;
+        }
+        return true;
+    }
+}

@@ -1,0 +1,36 @@
+public class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        int len = nums.length;
+        List<List<Integer>> res= new ArrayList<List<Integer>>();
+        if(len<4)return res;
+        Arrays.sort(nums);
+        if(4*nums[0]>target||4*nums[len-1]<target)return res;//target doesn't exist
+        for(int i=0; i<len-3; i++){
+            if(nums[i]+3*nums[len-1]<target)continue;//nums[i] too small
+            if(4*nums[i]>target)break;//nums[i] too big
+            if(i>0&&nums[i]==nums[i-1])continue;
+            for(int j=i+1; j<len-2; j++){
+                if(nums[i]+nums[j]+2*nums[len-1]<target)continue;//nums[j] too small
+                if(nums[i]+3*nums[j]>target)break;//nums[j] too big
+                if(j>i+1&&nums[j]==nums[j-1])continue;
+                int start=j+1;
+                int end=len-1;
+                while(start<end){
+                    int sum=nums[i]+nums[j]+nums[start]+nums[end];
+                    if(sum==target){
+                        res.add(Arrays.asList(nums[i], nums[j], nums[start], nums[end]));
+                        start++;
+                        end--;
+                        while(start<len&&nums[start]==nums[start-1])start++;
+                        while(end>=0&&nums[end]==nums[end+1])end--;
+                    }else if(sum>target){
+                        end--;
+                    }else{
+                        start++;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}

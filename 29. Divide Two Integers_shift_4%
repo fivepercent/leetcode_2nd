@@ -1,0 +1,28 @@
+public class Solution {
+    public int divide(int dividend, int divisor) {
+        if(divisor==0)return dividend>=0?Integer.MAX_VALUE:Integer.MIN_VALUE;
+        boolean isNeg=(dividend>0&&divisor<0)||(dividend<0&&divisor>0);
+        long dividend_temp=dividend<0?-(long)dividend:(long)dividend;
+        long divisor_temp=divisor<0?-(long)divisor:(long)divisor;
+        long res=0;
+        int k=0;
+        long d=divisor_temp;
+        while(d<=dividend_temp){
+            d<<=1;
+            k++;
+        }
+        k--;
+        while(dividend_temp>=divisor_temp){
+            long s=(divisor_temp<<k);
+            System.out.println(s);
+            if(dividend_temp>=s){
+                res+=((long)1<<k);
+                dividend_temp-=s;
+            }
+            k--;
+        }
+        res=isNeg?-res:res;
+        if(res>Integer.MAX_VALUE||res<Integer.MIN_VALUE)return Integer.MAX_VALUE;
+        return (int)res;
+    }
+}

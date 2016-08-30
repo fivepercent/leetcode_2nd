@@ -1,0 +1,26 @@
+public class Solution {
+    public int search(int[] nums, int target) {
+        return searchHelper(nums, 0, nums.length-1, target);
+    }
+    public int searchHelper(int[] nums, int start, int end, int target){
+        if(start>end)return -1;
+        int mid=(start+end)/2;
+        if(nums[mid]==target){
+            return mid;
+        }else if(nums[mid]<target){
+            if(nums[mid]>nums[end]){
+                return searchHelper(nums, mid+1, end, target);
+            }else{
+                int left=searchHelper(nums, start, mid-1, target);
+                return left!=-1?left:searchHelper(nums, mid+1, end, target);
+            }
+        }else{
+            if(nums[mid]<nums[start]){
+                return searchHelper(nums, start, mid-1, target);
+            }else{
+                int left=searchHelper(nums, start, mid-1, target);
+                return left!=-1?left:searchHelper(nums, mid+1, end, target);
+            }
+        }
+    }
+}

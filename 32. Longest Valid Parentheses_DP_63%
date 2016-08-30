@@ -1,0 +1,24 @@
+public class Solution {
+    public int longestValidParentheses(String s) {
+        int len = s.length();
+        int maxLen=0;
+        if(len==0)return 0;
+        int[] DP= new int[len];
+        DP[len-1]=0;
+        for(int i=len-2; i>=0; i--){
+            if(s.charAt(i)==')'){
+                DP[i]=0;
+            }else{
+                int j=i+DP[i+1]+1;
+                if(j<len&&s.charAt(j)==')'){
+                    DP[i]=2+DP[i+1];//(()())的外包情况
+                    if(j+1<len){
+                        DP[i]+=DP[j+1];//after j+1
+                    }
+                }
+            }
+            maxLen=Math.max(maxLen, DP[i]);
+        }
+        return maxLen;
+    }
+}

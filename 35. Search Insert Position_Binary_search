@@ -1,0 +1,19 @@
+public class Solution {
+    public int searchInsert(int[] nums, int target) {
+        if(nums.length==0) return -1;
+        return searchInsert(nums, 0, nums.length-1, target);
+    }
+    public int searchInsert(int[] nums, int start, int end, int target){
+        if(start==end){
+            return nums[start]>=target?start:start+1;
+        }
+        int mid=(start+end)/2;
+        if(target==nums[mid]){
+            return mid;
+        }else if(target>nums[mid]){
+            return searchInsert(nums, mid+1, end, target);
+        }else{
+            return searchInsert(nums, start, mid, target);
+        }
+    }
+}

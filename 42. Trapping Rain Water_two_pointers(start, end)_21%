@@ -1,0 +1,26 @@
+public class Solution {
+    public int trap(int[] height) {
+        int start=0;
+        int end=height.length-1;
+        int level=0;
+        int water=0;
+        while(start<end){
+            if(height[start]>height[end]){
+                if(height[end]>level){
+                    water+=(height[end]-level)*(end-start+1);
+                    level=height[end];
+                }
+                water-=height[end];
+                end--;
+            }else{
+                if(height[start]>level){
+                    water+=(height[start]-level)*(end-start+1);
+                    level=height[start];
+                }
+                water-=height[start];
+                start++;
+            }
+        }
+        return water-level;
+    }
+}

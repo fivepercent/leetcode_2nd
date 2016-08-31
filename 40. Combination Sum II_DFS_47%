@@ -4,24 +4,24 @@ public class Solution {
         int len =candidates.length;
         if(len==0)return res;
         List<Integer> combination = new ArrayList<Integer>();
-        boolean[] table = new boolean[len];
         Arrays.sort(candidates);
-        combinationSum2Helper(candidates, 0, table, target, combination, res);
+        combinationSum2Helper(candidates, 0, target, combination, res);
         return res;
     }
-    public void combinationSum2Helper(int[] candidates, int index, boolean[] table, int target, List<Integer> combination, List<List<Integer>> res){
+    public void combinationSum2Helper(int[] candidates, int index, int target, List<Integer> combination, List<List<Integer>> res){
         if(target<0)return;
         if(target==0){
             List<Integer> list=new ArrayList<Integer>(combination);
             res.add(list);
         }
+        //don't need a table
+        int pre=-1;
         for(int i=index; i<candidates.length; i++){
-            if(i>0&&candidates[i]==candidates[i-1]&&!table[i-1])continue;
+            if(candidates[i]==pre)continue;
             combination.add(candidates[i]);
-            table[i]=true;
-            combinationSum2Helper(candidates, i+1, table, target-candidates[i], combination, res);
+            combinationSum2Helper(candidates, i+1, target-candidates[i], combination, res);
             combination.remove(combination.size()-1);
-            table[i]=false;
+            pre=candidates[i];
         }
     }
 }

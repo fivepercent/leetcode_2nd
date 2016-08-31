@@ -17,6 +17,8 @@ public class Solution {
         //don't need a table
         int pre=-1;
         for(int i=index; i<candidates.length; i++){
+            //break the loop if candidates[i] is larger than target
+            if(candidates[i]>target)return;
             if(candidates[i]==pre)continue;
             combination.add(candidates[i]);
             combinationSum2Helper(candidates, i+1, target-candidates[i], combination, res);

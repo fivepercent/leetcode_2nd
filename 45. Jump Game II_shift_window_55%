@@ -1,0 +1,20 @@
+public class Solution {
+    public int jump(int[] nums) {
+        int len=nums.length;
+        int current=0;
+        int farest=0;
+        int miniStep=0;
+        while(true){
+            if(farest>=len-1)return miniStep;
+            int next_range=current;
+            miniStep++;
+            while(current<=farest){
+                if(current+nums[current]>next_range){
+                    next_range=current+nums[current];
+                }
+                current++;
+            }
+            farest=next_range;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+public class Solution {
+    public String multiply(String num1, String num2) {
+        if(num1.equals("0")||num2.equals("0"))return "0";
+        int len1=num1.length();
+        int len2=num2.length();
+        int[] digits= new int[len1+len2-1];
+        for(int i=len1-1; i>=0; i--){
+            int digit1=num1.charAt(i)-'0';
+            for(int j=len2-1; j>=0; j--){
+                int digit2=num2.charAt(j)-'0';
+                digits[i+j]+=digit1*digit2;
+            }
+        }
+        StringBuilder sb= new StringBuilder();
+        int carry=0;
+        for(int i=len1+len2-2; i>=0; i--){
+            char current=(char)('0'+(digits[i]+carry)%10);
+            carry=(digits[i]+carry)/10;
+            sb.insert(0, current);
+        }
+        while(carry!=0){
+            sb.insert(0, (char)('0'+(carry%10)));
+            carry/=10;
+        }
+        return sb.toString();
+    }
+}

@@ -1,0 +1,27 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        int lens=s.length();
+        int lenp=p.length();
+        int si=0, pi=0;
+        int lastStar=-1;
+        int mark=-1;
+        while(si<lens){
+            char sc=s.charAt(si);
+            if(pi<lenp&&((sc==p.charAt(pi))||(p.charAt(pi)=='?'))){
+                si++;
+                pi++;
+            }else if(pi<lenp&&p.charAt(pi)=='*'){
+                lastStar=pi;
+                mark=si;
+                pi++;
+            }else if(lastStar!=-1){
+                pi=lastStar;
+                si=++mark;
+            }else{
+                return false;
+            }
+        }
+        while(pi<lenp&&p.charAt(pi)=='*')pi++;
+        return pi==lenp;
+    }
+}

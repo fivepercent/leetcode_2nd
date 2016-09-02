@@ -1,0 +1,31 @@
+public class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        int len=nums.length;
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(len==0)return res;
+        List<Integer> permutation = new ArrayList<Integer>();
+        Arrays.sort(nums);
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for(int i=0; i<len; i++){
+            map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
+        }
+        permuteUniqueHelper(nums, permutation, map, res);
+        return res;
+    }
+    public void permuteUniqueHelper(int[] nums, List<Integer> permutation, HashMap<Integer, Integer> map, List<List<Integer>> res){
+        if(permutation.size()==nums.length){
+            List<Integer> list = new ArrayList<Integer>(permutation);
+            res.add(list);
+        }
+        for(int i=0; i<nums.length; i++){
+            if(i>0&&nums[i]==nums[i-1])continue;
+            int left=map.get(nums[i]);
+            if(left<=0)continue;
+            permutation.add(nums[i]);
+            map.put(nums[i], left-1);
+            permuteUniqueHelper(nums, permutation, map, res);
+            map.put(nums[i], left);
+            permutation.remove(permutation.size()-1);
+        }
+    }
+}

@@ -1,0 +1,25 @@
+public class Solution {
+    public int totalNQueens(int n) {
+        return totalNQueensHelper(n, 0, new boolean[n], new boolean[2*n], new boolean[2*n]);
+    }
+    public int totalNQueensHelper(int n, int row, boolean[] colCheck, boolean[] diag1Check, boolean[] diag2Check){
+        if(row==n){
+            return 1;
+        }
+        int res=0;
+        for(int i=0; i<n; i++){
+            int i1=row+i;
+            int i2= n-1+row-i;
+            if(!(colCheck[i]||diag1Check[i1]||diag2Check[i2])){
+                colCheck[i]=true;
+                diag1Check[i1]=true;
+                diag2Check[i2]=true;
+                res+=totalNQueensHelper(n, row+1, colCheck, diag1Check, diag2Check);
+                colCheck[i]=false;
+                diag1Check[i1]=false;
+                diag2Check[i2]=false;
+            }
+        }
+        return res;
+    }
+}

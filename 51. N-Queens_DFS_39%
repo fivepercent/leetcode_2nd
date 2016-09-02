@@ -1,0 +1,50 @@
+public class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        if(n<=0)return res;
+        List<Integer> solution = new ArrayList<Integer>();
+        sovleNQueensHelper(n, 0, res, solution);
+        return res;
+    }
+    public void sovleNQueensHelper(int n, int row, List<List<String>> res, List<Integer> solution){
+       // System.out.println(row);
+        if(row==n){
+            List<String> list=generateSolution(solution);
+            res.add(list);
+        }
+        for(int i=0; i<n; i++){
+            if(validQueens(solution, row, i)){
+                solution.add(i);
+                sovleNQueensHelper(n, row+1, res, solution);
+                solution.remove(solution.size()-1);
+            }
+        }
+    }
+    public boolean validQueens(List<Integer> solution, int row, int column){
+        for(int i=0; i<solution.size(); i++){
+            int j=solution.get(i);
+        //    System.out.println(Math.abs(row-i));
+        //    System.out.println(Math.abs(column-j));
+            if(column==j||Math.abs(row-i)==Math.abs(column-j))return false;
+        }
+        return true;
+    }
+    
+    public List<String> generateSolution(List<Integer> solution){
+        List<String> res = new ArrayList<String>();
+        int size=solution.size();
+        for(int i=0; i<size; i++){
+            int position = solution.get(i);
+            StringBuilder sb = new StringBuilder();
+            for(int j=0; j<size; j++){
+                if(j==position){
+                    sb.append('Q');
+                }else{
+                    sb.append('.');
+                }
+            }
+            res.add(sb.toString());
+        }
+        return res;
+    }
+}

@@ -1,0 +1,25 @@
+public class Solution {
+    public String getPermutation(int n, int k) {
+        int fact=1;
+        int index=1;
+        ArrayList<Integer> table = new ArrayList<Integer>();
+        while(index<=n){
+            fact*=index;
+            table.add(index);
+            index++;
+        }
+        StringBuilder sb = new StringBuilder();
+        k--;
+        index--;
+        while(index>0){
+            fact/=index;
+            int key=k/fact;
+            sb.append(table.get(key));
+            table.remove(key);
+            k%=fact;
+            index--;
+        }
+        return sb.toString();
+        
+    }
+}

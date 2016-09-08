@@ -1,0 +1,63 @@
+public class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        int len=words.length;
+        int index=1;
+        int startIndex=0;
+        int wordsLength=words[0].length();
+        List<String> res=new ArrayList<String>();
+        while(index<len){
+            int curLen=words[index].length();
+            if(wordsLength+curLen+1<=maxWidth){
+                wordsLength+=curLen+1;
+            }else{
+                res.add(genString(words, startIndex, index-1, wordsLength, maxWidth));
+                startIndex=index;
+                wordsLength=curLen;
+            }
+            index++;
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i=startIndex; i<=len-1; i++){
+            sb.append(words[i]);
+            if(i<len-1){
+                sb.append(" ");
+            }else{
+                sb.append(addSpace(maxWidth-wordsLength));
+            }
+            
+        }
+        res.add(sb.toString());
+        return res;
+    }
+    public String genString(String[] words, int start, int end, int length, int maxWidth){
+        StringBuilder sb= new StringBuilder();
+        int space=maxWidth-length;
+        int len=end-start;
+        if(len==0){
+            sb.append(words[start]);
+            sb.append(addSpace(space));
+        }else{
+            int aveSpace=space/len;
+            int extraSpace=space%len;
+            for(int i=start; i<end; i++){
+                sb.append(words[i]);
+                //if extraSpace==0
+                if(i-start<extraSpace){
+                    sb.append(addSpace(aveSpace+2));
+                }else{
+                    sb.append(addSpace(aveSpace+1));
+                }
+                
+            }
+            sb.append(words[end]);
+        }
+        return sb.toString();
+    }
+    public String addSpace(int num){
+        StringBuilder sb = new StringBuilder();
+        while(num-->0){
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+}

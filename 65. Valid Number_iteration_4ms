@@ -1,0 +1,37 @@
+public class Solution {
+    public boolean isNumber(String s) {
+        s=s.trim();
+        int len=s.length();
+        if(len==0)return false;
+        int index=0;
+        if(s.charAt(index)=='-'||s.charAt(index)=='+'){
+            index++;
+        }
+        if(index==len)return false;
+        boolean dot=false;
+        boolean exp=false;
+        boolean num=false;
+        while(index<len){
+            char current = s.charAt(index);
+            if(isNum(current)){
+                num=true;
+            }else if(current=='.'){
+                if(dot||exp)return false;
+                dot=true;
+            }else if(current=='e'){
+                if(exp||!num)return false;
+                exp=true;
+                num=false;
+            }else if(current=='+'||current=='-'){
+                if(s.charAt(index-1)!='e')return false;
+            }else{
+                return false;
+            }
+            index++;
+        }
+        return num;
+    }
+    public boolean isNum(char c){
+        return c>='0'&&c<='9';
+    }
+}

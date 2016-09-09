@@ -1,0 +1,16 @@
+public class Solution {
+    public int climbStairs(int n) {
+        if(n==1)return 1;
+        int pre1=1;
+        int pre2=1;
+        int curStep=0;
+        int index=2;
+        while(index<=n){
+            curStep=pre1+pre2;
+            pre1=pre2;
+            pre2=curStep;
+            index++;
+        }
+        return curStep;
+    }
+}

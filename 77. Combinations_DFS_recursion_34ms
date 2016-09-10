@@ -1,0 +1,18 @@
+public class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> res=new ArrayList<List<Integer>>();
+        combine(n, k, 1, res, new ArrayList<Integer>());
+        return res;
+    }
+    public void combine(int n, int k, int s, List<List<Integer>> res, List<Integer> combinations){
+        if(combinations.size()==k){
+            List<Integer> list = new ArrayList<Integer>(combinations);
+            res.add(list);
+        }
+        for(int i=s; i<=n; i++){
+            combinations.add(i);
+            combine(n, k, i+1, res, combinations);
+            combinations.remove(combinations.size()-1);
+        }
+    }
+}

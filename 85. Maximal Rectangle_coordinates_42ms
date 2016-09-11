@@ -1,0 +1,40 @@
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        int row=matrix.length;
+        if(row==0)return 0;
+        int col=matrix[0].length;
+        int[][] coordinates = new int[row][col];
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(i==0){
+                    coordinates[i][j]=matrix[i][j]=='1'?1:0;
+                }else{
+                    coordinates[i][j]=matrix[i][j]=='1'?coordinates[i-1][j]+1:0;
+                }
+            }
+        }
+        Stack<Integer> stack = new Stack<Integer>();
+        int maxArea=0;
+        for(int i=0; i<row; i++){
+            int j=0;
+            while(j<col){
+                if(stack.isEmpty()||coordinates[i][j]>=coordinates[i][stack.peek()]){
+                    stack.push(j);
+                    j++;
+                }else{
+                    int area = coordinates[i][stack.pop()]*(stack.isEmpty()?j:j-stack.peek()-1);
+                    if(area>maxArea){
+                        maxArea=area;
+                    }
+                }
+            }
+            while(!stack.isEmpty()){
+                int area = coordinates[i][stack.pop()]*(stack.isEmpty()?j:j-stack.peek()-1);
+                if(area>maxArea){
+                    maxArea=area;
+                }
+            }
+        }
+        return maxArea;
+    }
+}

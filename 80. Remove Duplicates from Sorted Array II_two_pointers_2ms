@@ -1,0 +1,24 @@
+public class Solution {
+    public int removeDuplicates(int[] nums) {
+        int len = nums.length;
+        if(len==0)return 0;
+        int index=1;
+        int pointer=1;
+        int times=1;
+        while(index<len){
+            if(nums[index]==nums[index-1]){
+                if(times<2){
+                    nums[pointer]=nums[index];
+                    pointer++;
+                }
+                times++;
+            }else{
+                times=1;
+                nums[pointer]=nums[index];
+                pointer++;
+            }
+            index++;
+        }
+        return pointer;
+    }
+}

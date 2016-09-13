@@ -1,0 +1,32 @@
+public class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        int len = s.length();
+        List<String> res = new ArrayList<String>();
+        if(len<4||len>12) return res;
+        restoreIpAddressesHelper(s, 0, res, "");
+        return res;
+    }
+    public void restoreIpAddressesHelper(String s, int index, List<String> res, String ip){
+        int ip_len=ip.length();
+        int s_len=s.length();
+        if(index==4&&ip_len==s_len+4){
+            res.add(ip.substring(0, ip_len-1));
+            return;
+        }
+        int i=ip_len-index;
+        if(s_len-i>3*(4-index)||s_len-i<4-index)return;
+        if(i+3<=s_len){
+            int threeDigits=Integer.valueOf(s.substring(i, i+3));
+            if(threeDigits<256&&threeDigits>99){
+                restoreIpAddressesHelper(s, index+1, res, ip+threeDigits+".");
+            }
+        }
+        if(i+2<=s_len){
+        int twoDigits=Integer.valueOf(s.substring(i, i+2));
+            if(twoDigits>9){
+                restoreIpAddressesHelper(s, index+1, res, ip+twoDigits+".");
+            }
+        }
+        restoreIpAddressesHelper(s, index+1, res, ip+s.substring(i, i+1)+".");
+    }
+}

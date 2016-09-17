@@ -1,0 +1,20 @@
+public class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int level = triangle.size();
+        List<Integer> bottom = triangle.get(level-1);
+        int size=bottom.size();
+        int[] DP= new int[size];
+        for(int i=0; i<size; i++){
+            DP[i]=bottom.get(i);
+        }
+        level--;
+        while(level-->0){
+            List<Integer> current = triangle.get(level);
+            int curLen=current.size();
+            for(int i=0; i<curLen; i++){
+                DP[i]=Math.min(DP[i], DP[i+1])+current.get(i);
+            }
+        }
+        return DP[0];
+    }
+}

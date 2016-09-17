@@ -1,0 +1,22 @@
+public class Solution {
+    public int numDistinct(String s, String t) {
+        int lens=s.length();
+        int lent=t.length();
+        if(lent>lens)return 0;
+        char[] sa=s.toCharArray();
+        char[] ta=t.toCharArray();
+        int[][] DP= new int[lent+1][lens+1];
+        for(int j=0; j<=lens; j++){
+            DP[0][j]=1;
+        }
+        for(int i=1; i<=lent; i++){
+            for(int j=i; j<=lens; j++){
+                DP[i][j]=DP[i][j-1];
+                if(ta[i-1]==sa[j-1]){
+                    DP[i][j]+=DP[i-1][j-1];
+                }
+            }
+        }
+        return DP[lent][lens];
+    }
+}

@@ -1,0 +1,39 @@
+public class Solution {
+    public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
+        Map<String, Integer> distances = new HashMap<String, Integer>();
+        ladderLengthHelper(beginWord, wordList, distances);
+        return distances.getOrDefault(endWord, 0);
+    }
+    public void ladderLengthHelper(String beginWord, Set<String> wordList, Map<String, Integer> distances){
+        Queue<String> q = new LinkedList<String>();
+        q.offer(beginWord);
+        distances.put(beginWord, 1);
+        while(!q.isEmpty()){
+            String cur = q.poll();
+            List<String> neighbours = getNeighbours(cur, wordList);
+            for(String str: neighbours){
+                if(!distances.containsKey(str)){
+                    distances.put(str, distances.get(cur)+1);
+                    q.offer(str);
+                }
+            }
+        }
+    }
+    public List<String> getNeighbours(String str, Set<String> wordList){
+        int len = str.length();
+        List<String> res =new ArrayList<String>();
+        char[] sa=str.toCharArray();
+        for(int i=0; i<len; i++){
+            char orig=sa[i];
+            for(char j='a'; j<'z'; j++){
+                if(j!=orig){
+                    sa[i]=j;
+                    String cur = String.valueOf(sa);
+                    if(wordList.contains(cur))res.add(cur);
+                }
+            }
+            sa[i]=orig;
+        }
+        return res;
+    }
+}

@@ -1,0 +1,61 @@
+public class Solution {
+    public List<List<String>> findLadders(String beginWord, String endWord, Set<String> wordList) {
+        List<List<String>> res = new ArrayList<List<String>>();
+        Map<String, List<String>> wordMap = new HashMap<String, List<String>>();
+        Map<String, Integer> distances = new HashMap<String, Integer>();
+        buildWordMap(beginWord, wordList, wordMap, distances);
+        findLaddersHelper(beginWord, endWord, wordMap, distances, new ArrayList<String>(), res);
+        return res;
+    }
+    public void findLaddersHelper(String beginWord, String current, Map<String, List<String>> wordMap, Map<String, Integer> distances, List<String> path, List<List<String>> res){
+        path.add(0, current);
+        if(current.equals(beginWord)){
+            List<String> list = new ArrayList<String>(path);
+            res.add(list);
+        }else{
+            List<String> neighbours=wordMap.get(current);
+            for(String str: neighbours){
+                if(distances.containsKey(str)&&(distances.get(current)==distances.get(str)+1)){
+                    findLaddersHelper(beginWord, str, wordMap, distances, path, res);
+                }
+            }
+        }
+        path.remove(0);
+    }
+    public void buildWordMap(String beginWord, Set<String> wordList, Map<String, List<String>> wordMap, Map<String, Integer> distances){
+        for(String str: wordList){
+            wordMap.put(str, new ArrayList<String>());
+        }
+        Queue<String> q = new LinkedList<String>();
+        q.offer(beginWord);
+        distances.put(beginWord, 0);
+        while(!q.isEmpty()){
+            String cur=q.poll();
+            List<String> neighbours=getNeighbours(wordList, cur);
+            int distance=distances.get(cur);
+            for(String str: neighbours){
+                wordMap.get(str).add(cur);
+                if(!distances.containsKey(str)){
+                    distances.put(str, distance+1);
+                    q.offer(str);
+                }
+            }
+        }
+    }
+    public List<String> getNeighbours(Set<String> wordList, String cur){
+        List<String> res = new ArrayList<String>();
+        char[] ca = cur.toCharArray();
+        for(int i=0; i<cur.length(); i++){
+            char orig = ca[i];
+            for(int j=0; j<26; j++){
+                ca[i]=(char)('a'+j);
+                String str = String.valueOf(ca);
+                if(!str.equals(cur)&&wordList.contains(str)){
+                    res.add(str);
+                }
+            }
+            ca[i]=orig;
+        }
+        return res;
+    }
+}

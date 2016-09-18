@@ -1,0 +1,50 @@
+public class Solution {
+    public void solve(char[][] board) {
+        int row=board.length;
+        if(row==0)return;
+        int col=board[0].length;
+        Queue<Integer> queue=new LinkedList<Integer>();
+        for(int j=0; j<col; j++){
+            if(board[0][j]=='O'){
+                board[0][j]='#';
+                enqueue(1,j, board, queue);
+            }
+            if(board[row-1][j]=='O'){
+                board[row-1][j]='#';
+                enqueue(row-2,j, board, queue);
+            }
+        }
+        for(int i=1; i<row-1; i++){
+            if(board[i][0]=='O'){
+                board[i][0]='#';
+                enqueue(i,1, board, queue);
+            }
+            if(board[i][col-1]=='O'){
+                board[i][col-1]='#';
+                enqueue(i,col-2, board, queue);
+            }
+        }
+        while(!queue.isEmpty()){
+            int current=queue.poll();
+            int r=current/col;
+            int c=current%col;
+            enqueue(r-1, c, board, queue);
+            enqueue(r+1, c, board, queue);
+            enqueue(r, c-1, board, queue);
+            enqueue(r, c+1, board, queue);
+        }
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                board[i][j]=board[i][j]=='#'?'O':'X';
+            }
+        }
+    }
+    public void enqueue(int x, int y, char[][] board, Queue<Integer> queue){
+        int row=board.length;
+        int col=board[0].length;
+        if(x>=0&&x<=row-1&&y>=0&&y<=col-1&&board[x][y]=='O'){
+            board[x][y]='#';
+            queue.offer(x*col+y);
+        }
+    }
+}

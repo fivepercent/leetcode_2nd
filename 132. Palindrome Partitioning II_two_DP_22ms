@@ -1,0 +1,29 @@
+public class Solution {
+    public int minCut(String s) {
+        int len=s.length();
+        char[] sa=s.toCharArray();
+        boolean isPalin[][] = new boolean[len][len+1];
+        int DP[] = new int[len+1];
+        for(int i=0; i<len; i++){
+            isPalin[i][i+1]=true;
+        }
+        for(int i=0; i<len-1; i++){
+            isPalin[i][i+2]=sa[i]==sa[i+1];
+        }
+        for(int i=3; i<=len; i++){
+            for(int j=0; j<i-2;j++){
+                isPalin[j][i]=sa[j]==sa[i-1]&&isPalin[j+1][i-1];
+            }
+        }
+        for(int i=0; i<=len; i++){
+            DP[i]=i-1;
+            for(int j=0; j<i; j++){
+                if(isPalin[j][i]){
+                    DP[i]=Math.min(DP[i],DP[j]+1);
+                }
+            }
+        }
+        return DP[len];
+        
+    }
+}

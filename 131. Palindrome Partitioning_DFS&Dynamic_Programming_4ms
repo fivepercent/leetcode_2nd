@@ -1,0 +1,36 @@
+public class Solution {
+    public List<List<String>> partition(String s) {
+        int len = s.length();
+        char[] sa=s.toCharArray();
+        List<List<String>> res = new ArrayList<List<String>>();
+        boolean[][] DP = new boolean[len][len+1];
+        for(int i=0; i<len; i++){
+            DP[i][i+1]=true;
+        }
+        for(int i=0; i<len-1;i++){
+            DP[i][i+2]=sa[i]==sa[i+1];
+        }
+        for(int l=3; l<=len; l++){
+            for(int i=0; i+l<=len; i++){
+                DP[i][i+l]=sa[i]==sa[i+l-1]&&DP[i+1][i+l-1];
+            }
+        }
+        partitionHelper(s, 0, res, new ArrayList<String>(), DP);
+        return res;
+    }
+    public void partitionHelper(String s, int index, List<List<String>> res, List<String> partition, boolean[][] DP){
+        int len=s.length();
+        if(index==len){
+            List<String> list = new ArrayList<String>(partition);
+            res.add(list);
+        }
+        for(int i=index+1; i<=len; i++){
+            if(DP[index][i]){
+                String cur = s.substring(index, i);
+                partition.add(cur);
+                partitionHelper(s, i, res, partition, DP);
+                partition.remove(partition.size()-1);
+            }
+        }
+    }
+}

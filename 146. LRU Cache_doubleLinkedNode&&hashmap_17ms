@@ -1,0 +1,58 @@
+public class LRUCache {
+    public class doubleLinkedNode{
+        int key;
+        int val;
+        doubleLinkedNode pre=null;
+        doubleLinkedNode next=null;
+        public doubleLinkedNode(int key, int val){this.val=val; this.key=key;}
+    }
+    int capacity;
+    int size=0;
+    doubleLinkedNode head;
+    doubleLinkedNode tail =null;
+    HashMap<Integer, doubleLinkedNode> map;
+    public LRUCache(int capacity) {
+        this.capacity=capacity;
+        head = new doubleLinkedNode(0,0);
+        tail = new doubleLinkedNode(0,0);
+        head.next=tail;
+        tail.pre=head;
+        map= new HashMap<Integer, doubleLinkedNode>();
+    }
+    
+    public int get(int key) {
+        doubleLinkedNode cur = map.getOrDefault(key, null);
+        if(cur==null)return -1;
+        setLatest(head, cur);
+        return cur.val;
+    }
+    
+    public void set(int key, int value) {
+        if(map.containsKey(key)){
+            doubleLinkedNode cur = map.get(key);
+            cur.val=value;
+            setLatest(head, cur);
+            return;
+        }
+        if(map.size()==capacity){
+            map.remove(tail.pre.key);
+            tail.pre.pre.next=tail;
+            tail.pre=tail.pre.pre;
+        }
+        doubleLinkedNode cur = new doubleLinkedNode(key, value);
+        cur.next=head.next;
+        head.next.pre=cur;
+        cur.pre=head;
+        head.next=cur;
+        map.put(key, cur);
+        
+    }
+    public void setLatest(doubleLinkedNode latest, doubleLinkedNode cur){
+        if(cur.pre!=null)cur.pre.next=cur.next;
+        if(cur.next!=null)cur.next.pre=cur.pre;
+        cur.next=latest.next;
+        latest.next.pre=cur;
+        cur.pre=latest;
+        latest.next=cur;
+    }
+}

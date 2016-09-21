@@ -1,0 +1,22 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        ListNode dummy= new ListNode(0);
+        while(head!=null){
+            ListNode cur = head;
+            head=head.next;
+            ListNode node=dummy;
+            while(node.next!=null&&node.next.val<cur.val)node=node.next;
+            cur.next=node.next;
+            node.next=cur;
+        }
+        return dummy.next;
+    }
+}

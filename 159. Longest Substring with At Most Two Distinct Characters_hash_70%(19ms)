@@ -1,0 +1,17 @@
+public class Solution {
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
+        char[] sa = s.toCharArray();
+        int left=0;
+        int max=0;
+        for(int i=0; i<sa.length; i++){
+            hash.put(sa[i], i);
+            while(hash.size()>2){
+                if(hash.get(sa[left])==left)hash.remove(sa[left]);
+                left++;
+            }
+            if(i-left+1>max)max=i-left+1;
+        }
+        return max;
+    }
+}

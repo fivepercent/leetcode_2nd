@@ -1,0 +1,37 @@
+public class Solution {
+    public int maximumGap(int[] nums) {
+        int len = nums.length;
+        if(len<2)return 0;
+        int min=Integer.MAX_VALUE;
+        int max=-1;
+        for(int i=0; i<len; i++){
+            min=nums[i]<min?nums[i]:min;
+            max=nums[i]>max?nums[i]:max;
+        }
+        int bucketLen=(max-min)/len+1;
+        int bucketNum=(max-min)/bucketLen+1;
+        int[] maxValues= new int[bucketNum];
+        int[] minValues= new int[bucketNum];
+        Arrays.fill(maxValues, -1);
+        for(int i=0; i<len; i++){
+            int index = (nums[i]-min)/bucketLen;
+            if(maxValues[index]==-1){
+                maxValues[index]=nums[i];
+                minValues[index]=nums[i];
+            }else{
+                maxValues[index]=nums[i]>maxValues[index]?nums[i]:maxValues[index];
+                minValues[index]=nums[i]<minValues[index]?nums[i]:minValues[index];
+            }
+        }
+        int pre=0;
+        int maxGap=0;
+        for(int i=1; i<bucketNum; i++){
+            if(maxValues[i]==-1)continue;
+            if(minValues[i]-maxValues[pre]>maxGap){
+                maxGap=minValues[i]-maxValues[pre];
+            }
+            pre=i;
+        }
+        return maxGap;
+    }
+}

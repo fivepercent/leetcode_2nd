@@ -1,0 +1,21 @@
+public class Solution {
+    public int compareVersion(String version1, String version2) {
+        char[] v1 = version1.toCharArray();
+        char[] v2 = version2.toCharArray();
+        int len1=v1.length;
+        int len2=v2.length;
+        int i1=0;
+        int i2=0;
+        while(i1<len1||i2<len2){
+            int num1=0, num2=0;
+            while(i1<len1&&v1[i1]!='.')num1=num1*10+v1[i1++]-'0';
+            while(i2<len2&&v2[i2]!='.')num2=num2*10+v2[i2++]-'0';
+            if(num1!=num2){
+                return num1>num2?1:-1;
+            }
+            i1++;
+            i2++;
+        }
+        return 0;
+    }
+}

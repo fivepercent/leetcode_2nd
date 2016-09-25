@@ -1,7 +1,7 @@
 public class Solution {
   /*  private Comparator<String> Lcomparator = new Comparator<String>(){
         public int compare(String num1, String num2){
-            return (num1+num2).compareTo(num2+num1);
+            return (num2+num1).compareTo(num1+num2);
         }
     }; */
     class lComparator implements Comparator<String>{

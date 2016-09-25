@@ -1,0 +1,32 @@
+public class Solution {
+  /*  private Comparator<String> Lcomparator = new Comparator<String>(){
+        public int compare(String num1, String num2){
+            return (num1+num2).compareTo(num2+num1);
+        }
+    }; */
+    class lComparator implements Comparator<String>{
+        public int compare(String num1, String num2){
+            return (num2+num1).compareTo(num1+num2);
+        }
+    }
+    public String largestNumber(int[] nums) {
+        int len = nums.length;
+        if(len==0)return "";
+        String[] strs = new String[len];
+        for(int i=0; i<len; i++){
+            strs[i]=String.valueOf(nums[i]);
+        }
+        Arrays.sort(strs, new lComparator());
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<len; i++){
+            sb.append(strs[i]);
+        }
+        int index=0;
+        int resLen=sb.length();
+        //corner case: leading Zeros
+        while(index<resLen&&sb.charAt(index)=='0'){
+            index++;
+        }
+        return index==resLen?"0":sb.substring(index);
+    }
+}

@@ -1,0 +1,30 @@
+public class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int len = prices.length;
+        int res=0;
+        if(k>len/2){
+            for(int i=1; i<len; i++){
+                if(prices[i]>prices[i-1]){
+                    res+=prices[i]-prices[i-1];
+                }
+            }
+            return res;
+        }
+        int[][] mustSell = new int[len][k+1];
+        int[][] global = new int[len][k+1];
+        for(int j=0; j<=k; j++){
+            mustSell[0][j]=0;
+            global[0][j]=0;
+        }
+        for(int i=1; i<len; i++){
+            mustSell[i][0]=0;
+            global[i][0]=0;
+            int diff=prices[i]-prices[i-1];
+            for(int j=1; j<=k; j++){
+                mustSell[i][j]=Math.max(global[i-1][j-1]+Math.max(diff, 0), mustSell[i-1][j]+diff);
+                global[i][j]=Math.max(global[i-1][j], mustSell[i][j]);
+            }
+        }
+        return global[len-1][k];
+    }
+}

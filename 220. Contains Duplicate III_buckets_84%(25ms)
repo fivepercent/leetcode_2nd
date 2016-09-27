@@ -1,0 +1,20 @@
+public class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        HashMap<Long, Long> buckets = new HashMap<Long, Long>();
+        if(t<0)return false;
+        long width = (long)t+1;
+        for(int i=0; i<nums.length; i++){
+            long id = getBucketsID(nums[i], width);
+            if(buckets.containsKey(id))return true;
+            if(buckets.containsKey(id+1)&&Math.abs(buckets.get(id+1)-nums[i])<=t)return true;
+            if(buckets.containsKey(id-1)&&Math.abs(buckets.get(id-1)-nums[i])<=t)return true;
+            buckets.put(id, (long)nums[i]);
+            if(buckets.size()>k)buckets.remove(getBucketsID(nums[i-k], width));
+        }
+        return false;
+        
+    }
+    public long getBucketsID(long num, long width){
+        return num>0?num/width: (num/width)-1;
+    }
+}

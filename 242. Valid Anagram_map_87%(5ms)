@@ -1,0 +1,17 @@
+public class Solution {
+    public boolean isAnagram(String s, String t) {
+        int len=s.length();
+        if(len!=t.length())return false;
+        int[] map = new int[128];
+        for(int i=0; i<len; i++){
+            int cur = (int)s.charAt(i);
+            map[cur]++;
+        }
+        for(int i=0; i<len; i++){
+            int cur = (int)t.charAt(i);
+            map[cur]--;
+            if(map[cur]<0)return false;
+        }
+        return true;
+    }
+}

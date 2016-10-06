@@ -1,0 +1,43 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public class timeStamp{
+        int time;
+        int rv;
+        public timeStamp(int t, int roomValue){
+            time=t;
+            rv=roomValue;
+        }
+    }
+    public class timeStampComparator implements Comparator<timeStamp>{
+        public int compare(timeStamp ts1, timeStamp ts2){
+            if(ts1.time==ts2.time){
+                return ts1.rv-ts2.rv;
+            }
+            return ts1.time-ts2.time;
+        }
+    }
+    public int minMeetingRooms(Interval[] intervals) {
+        int len = intervals.length;
+        ArrayList<timeStamp> ta = new ArrayList<timeStamp>();
+        for(int i=0; i<len; i++){
+            ta.add(new timeStamp(intervals[i].start, 1));
+            ta.add(new timeStamp(intervals[i].end, -1));
+        }
+        Collections.sort(ta, new timeStampComparator());
+        int max=0;
+        int cur=0;
+        for(timeStamp ts: ta){
+            cur+=ts.rv;
+            if(cur>max)max=cur;
+        }
+        return max;
+    }
+}
